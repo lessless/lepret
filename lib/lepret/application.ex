@@ -10,9 +10,7 @@ defmodule Lepret.Application do
     children = [
       LepretWeb.Telemetry,
       Lepret.Repo,
-      {Ecto.Migrator,
-        repos: Application.fetch_env!(:lepret, :ecto_repos),
-        skip: skip_migrations?()},
+      {Ecto.Migrator, repos: Application.fetch_env!(:lepret, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:lepret, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Lepret.PubSub},
       # Start the Finch HTTP client for sending emails
