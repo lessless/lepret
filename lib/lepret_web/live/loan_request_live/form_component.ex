@@ -55,24 +55,7 @@ defmodule LepretWeb.LoanRequestLive.FormComponent do
     end
   end
 
-  # defp save_loan_request(command) do
-  #   case LoanRequests.create_loan_request(loan_request_params) do
-  #     {:ok, loan_request} ->
-  #       notify_parent({:saved, loan_request})
-
-  #       {:noreply,
-  #        socket
-  #        |> put_flash(:info, "Loan request created successfully")
-  #        |> push_patch(to: socket.assigns.patch)}
-
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       {:noreply, assign_form(socket, changeset)}
-  #   end
-  # end
-
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     assign(socket, :form, to_form(changeset))
   end
-
-  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end

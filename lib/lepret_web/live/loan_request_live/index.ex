@@ -19,9 +19,4 @@ defmodule LepretWeb.LoanRequestLive.Index do
     |> assign(:page_title, "Listing Loan requests")
     |> assign(:loan_request, nil)
   end
-
-  @impl true
-  def handle_info({LepretWeb.LoanRequestLive.FormComponent, {:saved, loan_request}}, socket) do
-    {:noreply, stream_insert(socket, :loan_requests, loan_request)}
-  end
 end
