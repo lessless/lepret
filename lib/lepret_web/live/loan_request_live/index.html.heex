@@ -1,0 +1,19 @@
+<.header>
+  Listing Loan requests
+  <:actions>
+    <.link patch={~p"/loan_requests/new"}>
+      <.button>New Loan request</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.modal :if={@live_action in [:new]} id="loan_request-modal" show on_cancel={JS.patch(~p"/loan_requests")}>
+  <.live_component
+    module={LepretWeb.LoanRequestLive.FormComponent}
+    id={:new}
+    title={@page_title}
+    action={@live_action}
+    loan_request={@loan_request}
+    patch={~p"/loan_requests"}
+  />
+</.modal>
