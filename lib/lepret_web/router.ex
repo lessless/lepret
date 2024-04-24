@@ -18,6 +18,9 @@ defmodule LepretWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/loan_requests", LoanRequestLive.Index, :index
+    live "/loan_requests/new", LoanRequestLive.Index, :new
   end
 
   # Other scopes may use custom stacks.
