@@ -1,4 +1,5 @@
 defmodule LepretWeb.LoanRequestLive.FormComponent do
+  alias Lepret.UseCases
   use LepretWeb, :live_component
 
   alias Lepret.Commands.RequestLoan, as: RequestLoanCommand
@@ -49,9 +50,18 @@ defmodule LepretWeb.LoanRequestLive.FormComponent do
       {:error, changeset} ->
         {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
 
-      {:ok, _command} ->
-        # we will place valid command on the next step
-        {:noreply, socket}
+      {:ok, command} ->
+        save_loan_request(socket, command)
+    end
+  end
+
+  defp save_loan_request(socket, command) do
+    case UseCases.LoanRequest.run(command) do
+      :ok ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Loan successfully requested")
+         |> push_patch(to: socket.assigns.patch)}
     end
   end
 
