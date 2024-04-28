@@ -1,4 +1,5 @@
 defmodule Lepret.CreditScore do
+  @derive Jason.Encoder
   defstruct [:score, :national_id, :ts]
 
   def new(national_id, score, ts) do
