@@ -1,4 +1,4 @@
-defmodule Lepret.Event do
+defmodule Lepret.Domain.Event do
   defmodule LoanRequested do
     @derive Jason.Encoder
     use Ecto.Schema

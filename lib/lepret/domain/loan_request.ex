@@ -1,10 +1,10 @@
-defmodule Lepret.LoanRequest do
+defmodule Lepret.Domain.LoanRequest do
   use Ecto.Schema
-  alias Lepret.Commands.RequestLoan
-  alias Lepret.Event.LoanRequested
-  alias Lepret.Event.AutoApproved
-  alias Lepret.Event.AutoDenied
-  alias Lepret.Event.ManualReviewRequired
+  alias Lepret.Domain.Commands.RequestLoan
+  alias Lepret.Domain.Event.LoanRequested
+  alias Lepret.Domain.Event.AutoApproved
+  alias Lepret.Domain.Event.AutoDenied
+  alias Lepret.Domain.Event.ManualReviewRequired
 
   @primary_key {:id, :binary_id, []}
   embedded_schema do

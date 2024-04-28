@@ -1,4 +1,4 @@
-defmodule Lepret.CreditScore do
+defmodule Lepret.Domain.CreditScore do
   @derive Jason.Encoder
   defstruct [:score, :national_id, :ts]
 

@@ -2,7 +2,7 @@ defmodule LepretWeb.LoanRequestLive.FormComponent do
   alias Lepret.UseCases
   use LepretWeb, :live_component
 
-  alias Lepret.Commands.RequestLoan, as: RequestLoanCommand
+  alias Lepret.Domain.Commands.RequestLoan, as: RequestLoanCommand
 
   @impl true
   def render(assigns) do

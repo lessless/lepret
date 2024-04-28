@@ -1,5 +1,5 @@
-defmodule Lepret.CreditScoreApiClient do
-  alias Lepret.CreditScore
+defmodule Lepret.Domain.CreditScoreApiClient do
+  alias Lepret.Domain.CreditScore
 
   def for(national_id) do
     _latency = Process.sleep(100)

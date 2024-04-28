@@ -1,8 +1,8 @@
 defmodule Lepret.UseCases.LoanRequest do
-  alias Lepret.Commands.RequestLoan
-  alias Lepret.CreditScoreApiClient
-  alias Lepret.LoanRequest
-  alias Lepret.EventStore
+  alias Lepret.Domain.Commands.RequestLoan
+  alias Lepret.Domain.CreditScoreApiClient
+  alias Lepret.Domain.LoanRequest
+  alias Lepret.Domain.EventStore
 
   def run(%RequestLoan{} = command) do
     {:ok, credit_score} = CreditScoreApiClient.for(command.national_id)

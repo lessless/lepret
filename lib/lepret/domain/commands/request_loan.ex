@@ -1,7 +1,7 @@
-defmodule Lepret.Commands.RequestLoan do
+defmodule Lepret.Domain.Commands.RequestLoan do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Lepret.CreditScore
+  alias Lepret.Domain.CreditScore
 
   @primary_key {:id, :binary_id, []}
   embedded_schema do

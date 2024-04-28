@@ -1,7 +1,7 @@
 defmodule LepretWeb.LoanRequestLive.Index do
   use LepretWeb, :live_view
 
-  alias Lepret.Commands.RequestLoan, as: RequestLoanCommand
+  alias Lepret.Domain.Commands.RequestLoan, as: RequestLoanCommand
 
   @impl true
   def handle_params(params, _url, socket) do

@@ -18,7 +18,7 @@ defmodule Lepret.Application do
       # Start a worker by calling: Lepret.Worker.start_link(arg)
       # {Lepret.Worker, arg},
       # Start to serve requests, typically the last entry
-      Lepret.EventStore.SpearClient,
+      Lepret.Domain.EventStore.SpearClient,
       LepretWeb.Endpoint
     ]
 

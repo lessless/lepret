@@ -1,4 +1,4 @@
-defmodule Lepret.EventStore do
+defmodule Lepret.Domain.EventStore do
   defmodule SpearClient do
     use Spear.Client, otp_app: :lepret
   end
