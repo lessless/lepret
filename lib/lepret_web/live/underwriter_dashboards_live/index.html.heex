@@ -1,0 +1,9 @@
+<.header>
+  Pending loan requests
+</.header>
+
+<.table id="loan_requests" rows={@streams.loan_requests}>
+  <:col :let={{_id, loan_request}} label="Name"><%= loan_request.name %></:col>
+  <:col :let={{_id, loan_request}} label="Amount"><%= loan_request.amount %></:col>
+  <:col :let={{_id, loan_request}} label="National ID"><%= loan_request.national_id %></:col>
+</.table>

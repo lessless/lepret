@@ -21,6 +21,7 @@ defmodule LepretWeb.Router do
 
     live "/loan_requests", LoanRequestLive.Index, :index
     live "/loan_requests/new", LoanRequestLive.Index, :new
+    live "/underwriter_dashboard", UnderwriterDashboardLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

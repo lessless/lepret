@@ -28,14 +28,25 @@ defmodule Lepret.Domain.Event do
   end
 
   defmodule ManualReviewRequired do
-    @derive Jason.Encoder
     use Ecto.Schema
+    import Ecto.Changeset
+    alias Lepret.Domain.CreditScore
+
+    @derive Jason.Encoder
     @primary_key {:id, :binary_id, []}
     embedded_schema do
       field :name, :string
       field :amount, :integer
       field :national_id, :string
-      field :credit_score, :map
+      embeds_one :credit_score, CreditScore
+    end
+
+    def deserialise!(serialised_body) do
+      %__MODULE__{}
+      |> cast(serialised_body, [:id, :name, :amount, :national_id])
+      |> validate_required([:id, :name, :amount, :national_id])
+      |> cast_embed(:credit_score, required: true)
+      |> apply_action!(:deserialise)
     end
   end
 end

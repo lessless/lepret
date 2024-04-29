@@ -19,6 +19,7 @@ defmodule Lepret.Application do
       # {Lepret.Worker, arg},
       # Start to serve requests, typically the last entry
       Lepret.Domain.EventStore.SpearClient,
+      Lepret.ReadModel.UnderwriterDashboard.Subscription,
       LepretWeb.Endpoint
     ]
 
