@@ -1,5 +1,7 @@
 defmodule Lepret.Domain.EventStore do
   alias Lepret.Domain.EventStore.Checkpoint
+  alias Lepret.Domain.EventStore.StreamMetadata
+  alias Lepret.Domain.EventStore.ConversionTools
 
   defmodule SpearClient do
     use Spear.Client, otp_app: :lepret
@@ -7,31 +9,24 @@ defmodule Lepret.Domain.EventStore do
 
   @events_namespace Lepret.Domain.Event
 
-  def publish(decider, id, expected_revision, events) do
+  def load(decider, id) do
+    stream_metadata = StreamMetadata.new(decider, id)
+    raw_events = read_all_events(stream_metadata.stream_name)
+    {Enum.map(raw_events, &deserialise!/1), StreamMetadata.current_revision(stream_metadata, raw_events)}
+  end
+
+  def publish(events, %StreamMetadata{} = stream_metadata) do
     events
     |> to_spear_events()
-    |> SpearClient.append(stream_name_for(decider, id), expect: expected_revision)
+    |> SpearClient.append(stream_metadata.stream_name, expect: stream_metadata.current_revision)
+  end
+
+  def publish(decider, id, expected_revision, events) do
+    publish(events, StreamMetadata.new(decider, id, expected_revision))
   end
 
   defp to_spear_events(events) do
-    Enum.map(events, fn event -> Spear.Event.new(module_name(event), event) end)
-  end
-
-  defp stream_name_for(decider, id) do
-    "#{module_name(decider)}:#{id}"
-  end
-
-  defp module_name(struct) when is_map(struct) do
-    struct
-    |> Map.get(:__struct__)
-    |> module_name()
-  end
-
-  defp module_name(module) when is_atom(module) do
-    module
-    |> Atom.to_string()
-    |> String.split(".")
-    |> List.last()
+    Enum.map(events, fn event -> Spear.Event.new(ConversionTools.module_name(event), event) end)
   end
 
   def catchup_subscription(subscriber_pid, checkpoint_name) do
@@ -44,7 +39,7 @@ defmodule Lepret.Domain.EventStore do
   end
 
   def event_type_in?(%Spear.Event{} = raw_event, events_of_interest) do
-    raw_event.type in Enum.map(events_of_interest, &module_name/1)
+    raw_event.type in Enum.map(events_of_interest, &ConversionTools.module_name/1)
   end
 
   def event_type_in?(_checkpoint, _events_of_interest) do
@@ -58,5 +53,11 @@ defmodule Lepret.Domain.EventStore do
 
   def update_checkpoint!(checkpoint_name, %Spear.Event{} = raw_event) do
     Checkpoint.update!(checkpoint_name, raw_event.metadata.commit_position)
+  end
+
+  defp read_all_events(stream_name) do
+    stream_name
+    |> SpearClient.stream!()
+    |> Enum.into([])
   end
 end
